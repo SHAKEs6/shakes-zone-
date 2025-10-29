@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Shakes Zone</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <!-- Background Video -->
+  <video autoplay muted loop id="dash-bg">
+    <source src="dashboard-bg.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Overlay Content -->
+  <div class="overlay">
+    <h1>Welcome to Shakes Zone 🎮</h1>
+    <p>Connect with your gaming friends and schedule matches!</p>
+
+    <!-- Game Icons -->
+    <div class="games">
+      <img src="images/efootball.png" onclick="goToGames('efootball')" alt="Efootball" />
+      <img src="images/pubg.png" onclick="goToGames('pubg')" alt="PUBG" />
+      <img src="images/cod.png" onclick="goToGames('cod')" alt="COD" />
+    </div>
+
+    <!-- Online Friends Section -->
+    <div class="friends-section">
+      <h2>Online Friends</h2>
+      <ul id="online-users"></ul>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Socket.io + Dashboard Logic -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
