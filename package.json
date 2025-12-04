@@ -2,11 +2,11 @@
   "name": "shakes-zone-backend",
   "version": "1.0.0",
   "description": "Backend server for Shakes Zone web app (Render deployment)",
-  "main": "server.js",
+  "main": "backend/server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
     "render-build": "npm install && npm run build || echo 'No build step needed'"
   },
   "dependencies": {
