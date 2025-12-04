@@ -1,9 +1,7 @@
 /* ===============================
    Shakes Zone Dashboard Script
    =============================== */
-
-// 👇 REPLACE this URL with your actual Render backend URL
-const BACKEND_URL = "https://shakes-zone.onrender.com";
+import { BACKEND_URL } from './config.js';
 
 // Connect to backend using Socket.IO
 const socket = io(BACKEND_URL);
@@ -19,6 +17,11 @@ if (!username) {
 socket.on("connect", () => {
   console.log("✅ Connected to backend via socket:", socket.id);
   socket.emit("registerUser", username);
+});
+
+socket.on("connect_error", (error) => {
+  console.error("❌ Connection error:", error);
+  alert("Failed to connect to server. Please refresh the page.");
 });
 
 // Update online user list

@@ -18,23 +18,42 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
+// Get allowed origins from environment
+const ALLOWED_ORIGINS = process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000'];
+
 // Setup socket.io server
 const io = new Server(server, {
   cors: {
-    origin: "*", // you can restrict this later
-    methods: ["GET", "POST"]
+    origin: ALLOWED_ORIGINS,
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ALLOWED_ORIGINS,
+  credentials: true
+}));
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+
+// Security Headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  next();
+});
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ Mongo error:", err));
+  .catch(err => {
+    console.error("❌ Mongo error:", err);
+    process.exit(1);
+  });
 
 // Simple API test
 app.get("/api/test", (req, res) => {

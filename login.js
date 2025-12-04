@@ -1,6 +1,5 @@
-// login.js — connects to your Render backend
-
-const backendURL = "https://shakes-zone-backend.onrender.com"; // 🔥 Replace with your real backend Render URL
+// login.js — connects to your backend (local or Render)
+import { BACKEND_URL } from './config.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
@@ -11,8 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.querySelector("#email").value.trim();
     const password = document.querySelector("#password").value.trim();
 
+    // Basic validation
+    if (!email || !password) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     try {
-      const res = await fetch(`${backendURL}/api/auth/login`, {
+      const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,9 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Store token for future use
+      // Store token and user info
       localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
+      localStorage.setItem("username", data.user.username);
+      localStorage.setItem("userId", data.user.id);
 
       alert("Login successful!");
       window.location.href = "dashboard.html";
