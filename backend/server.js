@@ -60,8 +60,14 @@ app.get("/api/test", (req, res) => {
   res.json({ message: "Backend connection working ✅" });
 });
 
-// Serve static frontend if needed
-app.use(express.static(path.join(__dirname, "../")));
+// Serve static frontend files
+const frontendPath = path.join(__dirname, "../");
+app.use(express.static(frontendPath));
+
+// Serve index.html for all non-API routes (SPA routing)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 // -------------------- SOCKET.IO LOGIC --------------------
 const onlineUsers = new Map();
